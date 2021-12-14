@@ -3,6 +3,8 @@ package newpackage.controller;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -16,6 +18,8 @@ import newpackage.model.Student;
 import newpackage.service.StudentService;
 import newpackage.service.StudentServiceImport;
 import newpackage.until.ClassTableModel;
+import newpackage.view.StudentFrame;
+
 import javax.swing.table.TableRowSorter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -77,7 +81,35 @@ public class MNStudentController {
 			
 		});
 		
-		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					int selectdRowIndex = table.getSelectedRow();
+					selectdRowIndex = table.convertColumnIndexToModel(selectdRowIndex);
+					System.out.println(selectdRowIndex);
+					
+					Student student = new Student();
+//					student.setStudent_id((String) model.getValueAt(selectdRowIndex, 0));
+//					student.setStudent_id(null);
+//					student.setStudent_id(model.getValueAt(selectdRowIndex, 1).toString());
+//					student.setName(model.getValueAt(selectdRowIndex, 2).toString());
+//					model.getColumnName(0);
+//					student.setStudent_id((String) model.getValueAt(selectdRowIndex, 0));
+//					model.getColumnName(0);
+					student.setStudent_id(model.getColumnName(0));
+//					student.setStudent_id(model.getValueAt(selectdRowIndex, 1).toString());
+					student.setName(model.getValueAt(selectdRowIndex, 3).toString());
+					StudentFrame frame = new StudentFrame(student);
+					frame.setTitle("Information Student");
+					frame.setResizable(false);
+					frame.setLocationRelativeTo(null);
+					frame.setVisible(true);
+				}
+				super.mouseClicked(e);
+			}
+		});
 		
 		table.getTableHeader().setFont(new Font("Arrial", Font.BOLD, 14));
 		table.getTableHeader().setPreferredSize(new Dimension(100,50));
