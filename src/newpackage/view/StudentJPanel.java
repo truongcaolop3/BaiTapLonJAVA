@@ -5,6 +5,20 @@
 package newpackage.view;
 
 import newpackage.controller.MNStudentController;
+import newpackage.model.Student;
+
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.util.Date;
+import java.util.List;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -20,7 +34,13 @@ public class StudentJPanel extends javax.swing.JPanel {
         
         MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
         controller.setDateToTable();
+        controller.setEvent();
     }
+//    public void ReLoad() {
+//    	MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
+//    	controller.setDateToTable();
+//    	controller.setEvent();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,40 +80,78 @@ public class StudentJPanel extends javax.swing.JPanel {
             jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 548, Short.MAX_VALUE)
         );
+        
+        JButton btnLoad = new JButton();
+        btnLoad.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        			MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
+        			controller.setDateToTable();
+        			DefaultTableModel model = (DefaultTableModel) controller.getTable().getModel();
+        			
+					if (controller.getTable().getSelectedRow() != -1) {
+						int selectdRowIndex = controller.getTable().getSelectedRow();
+						selectdRowIndex = controller.getTable().convertColumnIndexToModel(selectdRowIndex);
+						//System.out.println(selectdRowIndex);
+						controller.getTable().getRowSorter().toggleSortOrder(3);
+						Student student = new Student();
+						student.setStudent_id(model.getValueAt(selectdRowIndex, 1).toString());
+						student.setName( model.getValueAt(selectdRowIndex, 2).toString());
+						student.setBirthday((Date)model.getValueAt(selectdRowIndex, 3));
+						student.setGender(model.getValueAt(selectdRowIndex, 4).toString());
+						student.setPhone(model.getValueAt(selectdRowIndex, 5) != null ?
+								model.getValueAt(selectdRowIndex, 5).toString() : null);
+						student.setAddress(model.getValueAt( selectdRowIndex, 6) != null ?
+								model.getValueAt(selectdRowIndex, 6).toString() : null);
+						student.setStatus((boolean)model.getValueAt(selectdRowIndex, 7));
+						
+						
+					}
+					
+				
+        	}
+        });
+        btnLoad.setText("Load");
+        btnLoad.setFont(new Font("Arial", Font.PLAIN, 18));
+        btnLoad.setBorder(null);
+        btnLoad.setBackground(new Color(0, 153, 153));
 
         javax.swing.GroupLayout jpnRootLayout = new javax.swing.GroupLayout(jpnRoot);
-        jpnRoot.setLayout(jpnRootLayout);
         jpnRootLayout.setHorizontalGroup(
-            jpnRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnRootLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jtfFind, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
-            .addComponent(jpnView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	jpnRootLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jpnRootLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(14, Short.MAX_VALUE))
+        		.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
         );
         jpnRootLayout.setVerticalGroup(
-            jpnRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnRootLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpnRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfFind, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jpnView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	jpnRootLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jpnRootLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jpnRootLayout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jpnRootLayout.createParallelGroup(Alignment.BASELINE)
+        					.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        			.addGap(18)
+        			.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE))
         );
+        jpnRoot.setLayout(jpnRootLayout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnRoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(jpnRoot, GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnRoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(jpnRoot, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
+        this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -106,5 +164,4 @@ public class StudentJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jpnRoot;
     private javax.swing.JPanel jpnView;
     private javax.swing.JTextField jtfFind;
-    // End of variables declaration//GEN-END:variables
 }

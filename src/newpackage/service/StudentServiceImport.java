@@ -3,6 +3,7 @@ package newpackage.service;
 import java.util.List;
 
 import newpackage.dao.StudentDAO;
+import newpackage.dao.StudentDAOImport;
 import newpackage.model.Student;
 
 public class StudentServiceImport implements StudentService{
@@ -11,18 +12,30 @@ public class StudentServiceImport implements StudentService{
 	
 	
 	public List<Student> getList() {
-		// TODO Auto-generated method stub
-		return null;
+		return studentDAO.getList();
 	}
 
 	public StudentServiceImport() {
 		super();
+		studentDAO = new StudentDAOImport();
+	}
+	@Override
+	public String Insert(Student student) {
+		return studentDAO.Insert(student);
 	}
 	
-	public StudentServiceImport(StudentDAO studentDAO) {
-		super();
-		this.studentDAO = studentDAO;
+	@Override
+	public String Update(Student student) {
+		return studentDAO.Update(student);
 	}
+	@Override
+	public String Delete(Student student) {
+		return studentDAO.Delete(student);
+	}
+
+	
+
+	
 
 	
 }

@@ -9,20 +9,30 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 
 import newpackage.controller.StudentControllor;
+import newpackage.dao.StudentDAOImport;
 import newpackage.model.Student;
+import newpackage.service.StudentService;
 
 import javax.swing.border.EtchedBorder;
+import java.awt.Font;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class StudentFrame extends JFrame {
 
 	public StudentFrame(Student student) {
         initComponents();
-        StudentControllor controllor = new StudentControllor(jbnSubmit, jtfStudentID, jtfStudentName);
-    		controllor.setView(student);
+        StudentControllor controllor = new StudentControllor(btnUpdate, jtfStudentID, jtfStudentName, jDateBirthday,
+											jComboBoxGender, jtfPhone, jtfAddress, jCheckBoxStatus, JlbMsg, btnDelete);
+    	controllor.setView(student);
+    		
+    	controllor.setEvent();	
 	}
 
     /**
@@ -35,7 +45,7 @@ public class StudentFrame extends JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jbnSubmit = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jtfStudentID = new javax.swing.JTextField();
@@ -46,22 +56,23 @@ public class StudentFrame extends JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jtfStudentName = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jLabel8 = new javax.swing.JLabel();
+        jtfPhone = new javax.swing.JTextField();
+        jtfAddress = new javax.swing.JTextField();
+        jDateBirthday = new com.toedter.calendar.JDateChooser();
+        jComboBoxGender = new javax.swing.JComboBox<>();
+        jCheckBoxStatus = new javax.swing.JCheckBox();
+        JlbMsg = new javax.swing.JLabel();
+        JlbMsg.setForeground(Color.RED);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jbnSubmit.setBackground(new java.awt.Color(153, 255, 102));
-        jbnSubmit.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jbnSubmit.setForeground(new java.awt.Color(51, 51, 51));
-        jbnSubmit.setText("Lưu Dữ Liệu");
-        jbnSubmit.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setBackground(new java.awt.Color(153, 255, 102));
+        btnUpdate.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(51, 51, 51));
+        btnUpdate.setText("Cập Nhật Dữ Liệu");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
@@ -93,7 +104,7 @@ public class StudentFrame extends JFrame {
         jLabel5.setText("Full Name: ");
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel6.setText("Phone Number:");
+        jLabel6.setText("Phone:");
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Address:");
@@ -105,18 +116,18 @@ public class StudentFrame extends JFrame {
             }
         });
 
-        jTextField4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jtfPhone.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        jTextField5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jtfAddress.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        jDateChooser1.setDateFormatString("dd-MM-yyyy");
+        jDateBirthday.setDateFormatString("dd-MM-yyyy");
 
-        jComboBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
+        jComboBoxGender.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboBoxGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
 
-        jCheckBox1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("hoạt động");
+        jCheckBoxStatus.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jCheckBoxStatus.setSelected(true);
+        jCheckBoxStatus.setText("hoạt động");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -132,10 +143,10 @@ public class StudentFrame extends JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtfStudentID, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1))
+                    .addComponent(jtfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxStatus))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -145,11 +156,11 @@ public class StudentFrame extends JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtfStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jComboBoxGender, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jtfAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(158, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -164,50 +175,90 @@ public class StudentFrame extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateBirthday, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBoxGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCheckBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jComboBox1, jDateChooser1, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jtfStudentID, jtfStudentName, jTextField5});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jComboBoxGender, jDateBirthday, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jtfStudentID, jtfStudentName, jtfAddress});
 
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel8.setText("jLabel8");
+        JlbMsg.setFont(new Font("Arial", Font.PLAIN, 14));
+        
+        JButton btnInsert = new JButton();
+        btnInsert.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+ 
+        		Student student = new Student(jtfStudentID.getText(), jtfStudentName.getText(), 
+        				jDateBirthday.getDate(), jComboBoxGender.getSelectedItem().toString(), jtfPhone.getText(), 
+        				jtfAddress.getText(), jCheckBoxStatus.isSelected());
+				StudentDAOImport studentDAOImport =new StudentDAOImport();
+				studentDAOImport.Insert(student);
+				JlbMsg.setText("Data insert successfull !");	
+        	}
+        });
+        btnInsert.setText("Thêm Dữ Liệu");
+        btnInsert.setForeground(new Color(51, 51, 51));
+        btnInsert.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnInsert.setBackground(new Color(153, 255, 102));
+        
+        btnDelete = new JButton();
+        btnDelete.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		Student student = new Student(jtfStudentID.getText(), jtfStudentName.getText(), 
+        				jDateBirthday.getDate(), jComboBoxGender.getSelectedItem().toString(), jtfPhone.getText(), 
+        				jtfAddress.getText(), jCheckBoxStatus.isSelected());
+				StudentDAOImport studentDAOImport = new StudentDAOImport();
+				studentDAOImport.Delete(student);
+				JlbMsg.setText("Data delete successfull !");	
+        	}
+        });
+        btnDelete.setText("Xóa dữ liệu");
+        btnDelete.setForeground(new Color(51, 51, 51));
+        btnDelete.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnDelete.setBackground(new Color(153, 255, 102));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(JlbMsg, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnInsert, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(btnUpdate)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbnSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(JlbMsg, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+        				.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        					.addComponent(btnInsert, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(btnUpdate, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        jPanel1.setLayout(jPanel1Layout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -272,10 +323,10 @@ public class StudentFrame extends JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jbnSubmit;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JCheckBox jCheckBoxStatus;
+    private javax.swing.JComboBox<String> jComboBoxGender;
+    private com.toedter.calendar.JDateChooser jDateBirthday;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -283,12 +334,12 @@ public class StudentFrame extends JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel JlbMsg;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jtfStudentID;
     private javax.swing.JTextField jtfStudentName;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    // End of variables declaration//GEN-END:variables
+    private javax.swing.JTextField jtfPhone;
+    private javax.swing.JTextField jtfAddress;
+    private JButton btnDelete;
 }

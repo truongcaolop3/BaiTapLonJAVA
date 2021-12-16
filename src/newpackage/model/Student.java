@@ -72,7 +72,8 @@ public class Student implements Serializable {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+    	
+    		this.phone = phone;
     }
 
     public String getAddress() {
@@ -84,7 +85,11 @@ public class Student implements Serializable {
     }
 
     public Boolean getStatus() {
-        return status;
+    	if (status == null) {
+    		return false;
+    	} else {
+    		 return status;
+    	}
     }
 
     public void setStatus(Boolean status) {
@@ -96,8 +101,4 @@ public class Student implements Serializable {
 		return  student_id + " " + name + " " + birthday + " " + gender
 				+ " " + phone + " " + address + " " + status ;
 	}
-
-	
-    
-    
 }
