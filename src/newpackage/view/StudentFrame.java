@@ -5,18 +5,25 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
+import newpackage.controller.MNStudentController;
 import newpackage.controller.StudentControllor;
 import newpackage.dao.StudentDAOImport;
 import newpackage.model.Student;
 import newpackage.service.StudentService;
+import newpackage.until.ClassTableModel;
 
 import javax.swing.border.EtchedBorder;
 import java.awt.Font;
@@ -206,7 +213,12 @@ public class StudentFrame extends JFrame {
         				jtfAddress.getText(), jCheckBoxStatus.isSelected());
 				StudentDAOImport studentDAOImport =new StudentDAOImport();
 				studentDAOImport.Insert(student);
-				JlbMsg.setText("Data insert successfull !");	
+				JlbMsg.setText("Data insert successfull !");
+				// thoat 2 click
+				setVisible(false);
+				
+				
+				
         	}
         });
         btnInsert.setText("Thêm Dữ Liệu");
@@ -223,6 +235,8 @@ public class StudentFrame extends JFrame {
 				StudentDAOImport studentDAOImport = new StudentDAOImport();
 				studentDAOImport.Delete(student);
 				JlbMsg.setText("Data delete successfull !");	
+				// thoat 2 click
+				setVisible(false);
         	}
         });
         btnDelete.setText("Xóa dữ liệu");

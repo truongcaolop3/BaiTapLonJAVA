@@ -86,9 +86,13 @@ public class StudentControllor {
 						student.setStudent_id(lastID);
 						jtfStudentID.getSelectedText();
 						JlbMsg.setText("Data update successful !");
-//						mouseClicked(e);
+						
 					}
+					StudentFrame frame = new StudentFrame(student);
+					frame.setVisible(false);
 				}
+				// thoat 2 click
+				
 			}
 
 		});
@@ -108,7 +112,8 @@ public class StudentControllor {
 					student.setStatus(jCheckBoxStatus.isSelected());
 					studentService.Delete(student);
 					JlbMsg.setText("Data delete successful !");
-			
+					StudentFrame frame = new StudentFrame(student);
+					frame.setVisible(false);
 				}
 			}
 

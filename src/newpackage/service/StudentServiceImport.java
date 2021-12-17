@@ -33,9 +33,13 @@ public class StudentServiceImport implements StudentService{
 		return studentDAO.Delete(student);
 	}
 
-	
+	@Override
+	public List<Student> sortList() {
+		// TODO Auto-generated method stub
+		return studentDAO.sortList();
+	}
 
-	
 
-	
+
+
 }

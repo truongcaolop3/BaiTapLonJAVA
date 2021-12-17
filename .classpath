@@ -9,5 +9,7 @@
 	<classpathentry kind="lib" path="G:/mysql-connector-java-8.0.27.jar"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/DELL/OneDrive/Máy tính/học/My-SQL/jfreechart-1.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/DELL/OneDrive/Máy tính/học/My-SQL/jcommon-1.0.23/jcommon-1.0.23.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

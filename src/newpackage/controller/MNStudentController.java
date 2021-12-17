@@ -39,7 +39,9 @@ public class MNStudentController implements StudentDAO {
 	private String[] listColumn = {"STT" ,"Student ID" ,"Name" , "birthday" , "gender" ,"phone" , "address", "status"};
 	
 	private TableRowSorter<TableModel> rowSorter = null;
-	
+	public MNStudentController() {
+		super();
+	}
 	public MNStudentController(JPanel jpnView, JButton btnAdd, JTextField jtfFind) {
 		super();
 		this.jpnView = jpnView;
@@ -58,7 +60,7 @@ public class MNStudentController implements StudentDAO {
 	public void setDateToTable() {
 //		List<Student> listItem = studentservice.getList();
 		StudentDAOImport sdi = new StudentDAOImport();
-		List<Student> listItem = sdi.getList();
+		List<Student> listItem = sdi.sortList();
 		
 		model = new ClassTableModel().setTableStudent(listItem, listColumn);
 		table = new JTable(model);
@@ -184,6 +186,12 @@ public class MNStudentController implements StudentDAO {
 
 	@Override
 	public String Delete(Student student) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Student> sortList() {
 		// TODO Auto-generated method stub
 		return null;
 	}

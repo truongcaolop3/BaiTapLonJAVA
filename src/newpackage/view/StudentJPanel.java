@@ -5,14 +5,23 @@
 package newpackage.view;
 
 import newpackage.controller.MNStudentController;
+import newpackage.dao.StudentDAOImport;
 import newpackage.model.Student;
+import newpackage.until.ClassTableModel;
 
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import com.mysql.cj.xdevapi.Table;
+
 import javax.swing.JButton;
+import javax.swing.JTable;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -81,52 +90,61 @@ public class StudentJPanel extends javax.swing.JPanel {
             .addGap(0, 548, Short.MAX_VALUE)
         );
         
-        JButton btnLoad = new JButton();
-        btnLoad.addActionListener(new ActionListener() {
+        btnSort = new JButton();
+        btnSort.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        			MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
-        			controller.setDateToTable();
-        			DefaultTableModel model = (DefaultTableModel) controller.getTable().getModel();
-        			
-					if (controller.getTable().getSelectedRow() != -1) {
-						int selectdRowIndex = controller.getTable().getSelectedRow();
-						selectdRowIndex = controller.getTable().convertColumnIndexToModel(selectdRowIndex);
-						//System.out.println(selectdRowIndex);
-						controller.getTable().getRowSorter().toggleSortOrder(3);
-						Student student = new Student();
-						student.setStudent_id(model.getValueAt(selectdRowIndex, 1).toString());
-						student.setName( model.getValueAt(selectdRowIndex, 2).toString());
-						student.setBirthday((Date)model.getValueAt(selectdRowIndex, 3));
-						student.setGender(model.getValueAt(selectdRowIndex, 4).toString());
-						student.setPhone(model.getValueAt(selectdRowIndex, 5) != null ?
-								model.getValueAt(selectdRowIndex, 5).toString() : null);
-						student.setAddress(model.getValueAt( selectdRowIndex, 6) != null ?
-								model.getValueAt(selectdRowIndex, 6).toString() : null);
-						student.setStatus((boolean)model.getValueAt(selectdRowIndex, 7));
-						
-						
-					}
+        		MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
+    			controller.setDateToTable();
+    			DefaultTableModel model = (DefaultTableModel) controller.getTable().getModel();
+    			StudentDAOImport sdi = new StudentDAOImport();
+				List<Student> listItem = sdi.sortList();
+				String[] listColumn = {"STT" ,"Student ID" ,"Name" , "birthday" , "gender" ,"phone" , "address", "status"};
+				JTable table = controller.getTable();
+				TableRowSorter<TableModel> rowSorter = null;
+				model = new ClassTableModel().setTableStudent(listItem, listColumn);
+				table = new JTable(model);
+				rowSorter = new TableRowSorter<>(table.getModel());
+				table.setRowSorter(rowSorter);
+				if (controller.getTable().getSelectedRow() != -1) {
+					int selectdRowIndex = controller.getTable().getSelectedRow();
+					selectdRowIndex = controller.getTable().convertColumnIndexToModel(selectdRowIndex);
 					
+					
+					
+					Student student = new Student();
+					student.setStudent_id(model.getValueAt(selectdRowIndex, 1).toString());
+					student.setName( model.getValueAt(selectdRowIndex, 2).toString());
+					student.setBirthday((Date)model.getValueAt(selectdRowIndex, 3));
+					student.setGender(model.getValueAt(selectdRowIndex, 4).toString());
+					student.setPhone(model.getValueAt(selectdRowIndex, 5) != null ?
+							model.getValueAt(selectdRowIndex, 5).toString() : null);
+					student.setAddress(model.getValueAt( selectdRowIndex, 6) != null ?
+							model.getValueAt(selectdRowIndex, 6).toString() : null);
+					student.setStatus((boolean)model.getValueAt(selectdRowIndex, 7));
+					
+					
+				}
 				
+//        		getRowSorter(treeTableModel.getRoot()).sort(true);
         	}
         });
-        btnLoad.setText("Load");
-        btnLoad.setFont(new Font("Arial", Font.PLAIN, 18));
-        btnLoad.setBorder(null);
-        btnLoad.setBackground(new Color(0, 153, 153));
+        btnSort.setText("Sort");
+        btnSort.setFont(new Font("Arial", Font.PLAIN, 18));
+        btnSort.setBorder(null);
+        btnSort.setBackground(new Color(0, 153, 153));
 
         javax.swing.GroupLayout jpnRootLayout = new javax.swing.GroupLayout(jpnRoot);
         jpnRootLayout.setHorizontalGroup(
-        	jpnRootLayout.createParallelGroup(Alignment.LEADING)
+        	jpnRootLayout.createParallelGroup(Alignment.TRAILING)
         		.addGroup(jpnRootLayout.createSequentialGroup()
         			.addContainerGap()
-        			.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 209, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(14, Short.MAX_VALUE))
-        		.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+        			.addComponent(btnSort, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+        			.addGap(18))
+        		.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
         );
         jpnRootLayout.setVerticalGroup(
         	jpnRootLayout.createParallelGroup(Alignment.LEADING)
@@ -134,11 +152,11 @@ public class StudentJPanel extends javax.swing.JPanel {
         			.addContainerGap()
         			.addGroup(jpnRootLayout.createParallelGroup(Alignment.LEADING)
         				.addGroup(jpnRootLayout.createParallelGroup(Alignment.BASELINE)
-        					.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-        					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-        				.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-        			.addGap(18)
-        			.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE))
+        					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(btnSort, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        			.addGap(20)
+        			.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
         );
         jpnRoot.setLayout(jpnRootLayout);
 
@@ -164,4 +182,5 @@ public class StudentJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jpnRoot;
     private javax.swing.JPanel jpnView;
     private javax.swing.JTextField jtfFind;
+    private JButton btnSort;
 }

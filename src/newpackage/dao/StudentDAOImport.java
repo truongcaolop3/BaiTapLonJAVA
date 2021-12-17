@@ -9,6 +9,7 @@ import java.util.List;
 
 import newpackage.controller.MNStudentController;
 import newpackage.model.Student;
+import newpackage.view.StudentFrame;
 import newpackage.view.StudentJPanel;
 
 public class StudentDAOImport implements StudentDAO{
@@ -44,6 +45,37 @@ public class StudentDAOImport implements StudentDAO{
         
 	}
 	
+	public List<Student> sortList() {
+		try {
+		Connection con = BDConnect.getConnection();
+		String sql = "SELECT * FROM student ORDER BY student_id DESC";
+		List<Student> listItem = new ArrayList<>();
+        PreparedStatement ps = (PreparedStatement) con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Student student = new Student();
+            student.setStudent_id(rs.getString("student_id"));
+            student.setName(rs.getString("name"));
+            student.setBirthday(rs.getDate("birthday"));
+            student.setGender(rs.getString("gender"));
+            student.setAddress(rs.getString("address"));
+            student.setPhone(rs.getString("phone"));
+            student.setStatus(rs.getBoolean("status"));
+        
+	    	listItem.add(student);
+            }
+            ps.close();
+            rs.close();
+            con.close();
+            return listItem;
+        } catch (Exception e) {	
+            e.printStackTrace();
+        }
+		return null;
+        
+	}
+	
+	
 	public String Insert(Student student) {
 		try {
 			Connection conn = BDConnect.getConnection();
@@ -62,6 +94,8 @@ public class StudentDAOImport implements StudentDAO{
             if (rs.next()) {
                 generatedKey = rs.getString(1);
             }
+            StudentFrame frame = new StudentFrame(student);
+            frame.setVisible(false);
             ps.close();
             conn.close();
             return generatedKey;

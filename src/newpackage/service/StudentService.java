@@ -9,4 +9,5 @@ public interface StudentService {
 	public String Insert(Student student);
 	public String Update(Student student);
 	public String Delete(Student student);
+	public List<Student> sortList();
 }
