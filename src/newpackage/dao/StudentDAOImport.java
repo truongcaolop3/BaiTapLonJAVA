@@ -31,7 +31,8 @@ public class StudentDAOImport implements StudentDAO{
             student.setAddress(rs.getString("address"));
             student.setPhone(rs.getString("phone"));
             student.setStatus(rs.getBoolean("status"));
-        
+            
+//            System.out.println(student);
 	    	listItem.add(student);
             }
             ps.close();
@@ -163,7 +164,6 @@ public class StudentDAOImport implements StudentDAO{
 	
 	public static void main(String[] args) {
 		StudentDAO studentdao = new StudentDAOImport();
-		
 		System.out.println(studentdao.getList());
 	}
 

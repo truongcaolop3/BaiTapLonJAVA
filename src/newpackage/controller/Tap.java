@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import newpackage.bean.DanhMucBean;
 import newpackage.view.ClassJPanel;
 import newpackage.view.DepartmentJPanel;
-import newpackage.view.StatisticJPanel;
+import newpackage.view.StatisticJpanel;
 import newpackage.view.StudentJPanel;
 import newpackage.view.TrangChuJPanel;
 
@@ -46,7 +46,6 @@ public class Tap {
         root.repaint();
         
     }
-    
     public void setEvent(List<DanhMucBean> listItem ){
         this.listItem = listItem;
         for (DanhMucBean item : listItem){
@@ -83,7 +82,7 @@ public class Tap {
                     node = new ClassJPanel();
                     break;
                 case "Statistic":
-                    node = new StatisticJPanel();
+                    node = new StatisticJpanel();
                     break;
                 default:
                     node = new TrangChuJPanel();
