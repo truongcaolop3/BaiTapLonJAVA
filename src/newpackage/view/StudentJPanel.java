@@ -13,18 +13,30 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.RowSorter.SortKey;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import com.mysql.cj.protocol.a.authentication.MysqlClearPasswordPlugin;
 import com.mysql.cj.xdevapi.Table;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.lang.ref.Cleaner;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -38,6 +50,8 @@ public class StudentJPanel extends javax.swing.JPanel {
     /**
      * Creates new form StudentJPanel
      */
+	private DefaultTableModel model;
+	private JTable table;
     public StudentJPanel() {
         initComponents();
         
@@ -67,7 +81,7 @@ public class StudentJPanel extends javax.swing.JPanel {
 
         jpnRoot.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnAdd.setBackground(new java.awt.Color(0, 153, 153));
+        btnAdd.setBackground(Color.GREEN);
         btnAdd.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnAdd.setText("Insert");
         btnAdd.setBorder(null);
@@ -95,11 +109,11 @@ public class StudentJPanel extends javax.swing.JPanel {
         	public void actionPerformed(ActionEvent e) {
         		MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
     			controller.setDateToTable();
-    			DefaultTableModel model = (DefaultTableModel) controller.getTable().getModel();
+    			model = (DefaultTableModel) controller.getTable().getModel();
     			StudentDAOImport sdi = new StudentDAOImport();
 				List<Student> listItem = sdi.sortList();
 				String[] listColumn = {"STT" ,"Student ID" ,"Name" , "birthday" , "gender" ,"phone" , "address", "status"};
-				JTable table = controller.getTable();
+				table = controller.getTable();
 				TableRowSorter<TableModel> rowSorter = null;
 				model = new ClassTableModel().setTableStudent(listItem, listColumn);
 				table = new JTable(model);
@@ -131,32 +145,166 @@ public class StudentJPanel extends javax.swing.JPanel {
         btnSort.setText("Sort");
         btnSort.setFont(new Font("Arial", Font.PLAIN, 18));
         btnSort.setBorder(null);
-        btnSort.setBackground(new Color(0, 153, 153));
+        btnSort.setBackground(Color.GREEN);
+        
+        JButton btnExport = new JButton();
+        btnExport.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		JFileChooser fileChooser = new JFileChooser();
+        		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("File Text(.txt)", ".txt");
+        		fileChooser.setFileFilter(fileFilter);
+        		fileChooser.setMultiSelectionEnabled(true);
+        		
+        		int x = fileChooser.showDialog(btnExport, "Chọn file");
+        		if (x == JFileChooser.APPROVE_OPTION) {
+        			File f = fileChooser.getSelectedFile();
+        			try {
+        				FileOutputStream fos = new FileOutputStream(f + ".txt");
+                        ObjectOutputStream os = new ObjectOutputStream(fos);
+                        MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
+            			controller.setDateToTable();
+                        model = (DefaultTableModel) controller.getTable().getModel();
+                        int size = model.getRowCount();
+                        //System.out.println(size);
+                        Student student[] = new Student [size];
+                        for (int i=0; i<size; i++) {
+                        	student[i] = new Student();
+                        	student[i].setStudent_id(model.getValueAt(i, 1).toString());
+                        	student[i].setName(model.getValueAt(i, 2).toString());
+                        	student[i].setBirthday((Date) model.getValueAt(i, 3));
+                        	student[i].setGender(model.getValueAt(i, 4).toString());
+                        	student[i].setPhone(model.getValueAt(i, 5).toString());
+                        	student[i].setAddress(model.getValueAt(i, 6).toString());
+                        	student[i].setStatus((Boolean)model.getValueAt(i, 7));
+                        	os.writeObject(student[i]);
+                        }
+                        os.flush();
+                        os.close();
+                        fos.close();
+                        JOptionPane.showMessageDialog(null, "Lưu file thành công"); 
+					} catch (Exception e2) {
+						// TODO: handle exception
+						e2.printStackTrace();
+						 JOptionPane.showMessageDialog(null, "Lưu file thất bại"); 
+					}
+        		}
+        		
+        	}
+        });
+        btnExport.setText("Export");
+        btnExport.setFont(new Font("Arial", Font.PLAIN, 18));
+        btnExport.setBorder(null);
+        btnExport.setBackground(Color.GREEN);
+        
+        JButton btnImport = new JButton();
+        btnImport.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		JFileChooser fileChooser = new JFileChooser();
+        		FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("file", ".txt");
+        		fileChooser.setFileFilter(fileFilter);
+        		fileChooser.setMultiSelectionEnabled(false);
+        		
+        		int x = fileChooser.showDialog(btnExport, "Chọn file");
+        		if (x == JFileChooser.APPROVE_OPTION) {
+        			try {
+        				File f = fileChooser.getSelectedFile();
+        				FileInputStream fos = new FileInputStream(f);
+        				ObjectInputStream os = new ObjectInputStream(fos);
+                        MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
+            			controller.setDateToTable();
+                        model = (DefaultTableModel) controller.getTable().getModel();
+                        int size = model.getRowCount();
+                        
+                        //System.out.println(size);
+                        List<Student> listStudents = new ArrayList<Student>();
+                        Student student[] = new Student [size];
+                        for (int i=0; i<size; i++) {
+                        	student[i] = (Student) os.readObject();
+                        	listStudents.add(student[i]);
+                        }
+                        Object[] row = new Object[8];
+                        for (int i=0; i<listStudents.size(); i++) {
+							row[0] = (size+1) + i;
+							row[1] = listStudents.get(i).getStudent_id();
+							row[2] = listStudents.get(i).getName();
+							row[3] = listStudents.get(i).getBirthday();
+							row[4] = listStudents.get(i).getGender();
+							row[5] = listStudents.get(i).getPhone();
+							row[6] = listStudents.get(i).getAddress();
+							row[7] = listStudents.get(i).getStatus();
+							model.addRow(new Object[] {row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]});
+                        }
+                        os.close();
+                        fos.close();
+                        JOptionPane.showMessageDialog(null, "Đọc file thành công"); 
+
+        			} catch (Exception e2) {
+						// TODO: handle exception
+						e2.printStackTrace();
+						 JOptionPane.showMessageDialog(null, "Đọc file thất bại"); 
+					}
+        		}
+        	}
+        });
+        btnImport.setText("Import");
+        btnImport.setFont(new Font("Arial", Font.PLAIN, 18));
+        btnImport.setBorder(null);
+        btnImport.setBackground(Color.GREEN);
+        
+        btnSave = new JButton();
+        btnSave.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		MNStudentController controller = new MNStudentController(jpnView, btnAdd , jtfFind);
+    			controller.setDateToTable();
+                model = (DefaultTableModel) controller.getTable().getModel();
+                int size = model.getRowCount();
+                System.out.println(size);
+                for (int i = size - 1; i >= 0; i--) {
+                	
+                    model.removeRow(i);
+                }
+        	}
+        });
+        btnSave.setText("Clear");
+        btnSave.setFont(new Font("Arial", Font.PLAIN, 18));
+        btnSave.setBorder(null);
+        btnSave.setBackground(Color.GREEN);
 
         javax.swing.GroupLayout jpnRootLayout = new javax.swing.GroupLayout(jpnRoot);
         jpnRootLayout.setHorizontalGroup(
         	jpnRootLayout.createParallelGroup(Alignment.TRAILING)
+        		.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
         		.addGroup(jpnRootLayout.createSequentialGroup()
         			.addContainerGap()
-        			.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 209, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        			.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addComponent(btnSort, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-        			.addGap(18))
-        		.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+        			.addGroup(jpnRootLayout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(jtfFind, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+        				.addGroup(jpnRootLayout.createSequentialGroup()
+        					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnSort, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnExport, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnImport, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)))
+        			.addContainerGap())
         );
         jpnRootLayout.setVerticalGroup(
         	jpnRootLayout.createParallelGroup(Alignment.LEADING)
         		.addGroup(jpnRootLayout.createSequentialGroup()
         			.addContainerGap()
+        			.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(jpnRootLayout.createParallelGroup(Alignment.LEADING)
         				.addGroup(jpnRootLayout.createParallelGroup(Alignment.BASELINE)
         					.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-        					.addComponent(btnSort, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-        				.addComponent(jtfFind, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-        			.addGap(20)
-        			.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
+        					.addComponent(btnSort, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(btnExport, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(btnImport, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        			.addGap(18)
+        			.addComponent(jpnView, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
         );
         jpnRoot.setLayout(jpnRootLayout);
 
@@ -183,4 +331,5 @@ public class StudentJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jpnView;
     private javax.swing.JTextField jtfFind;
     private JButton btnSort;
+    private JButton btnSave;
 }
