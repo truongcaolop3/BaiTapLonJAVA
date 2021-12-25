@@ -97,27 +97,27 @@ public class StudentControllor {
 
 		});
 		
-		btnDelete.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (jtfStudentName.getText().length() == 0 || jDateBirthday.getDate() == null) {
-					JlbMsg.setText("column Name and Birthday not NULL !");
-					
-				}else {
-					student.setName(jtfStudentName.getText());
-					student.setBirthday(jDateBirthday.getDate());
-					student.setGender((String) jComboBoxGender.getSelectedItem());
-					student.setPhone(jtfPhone.getText());
-					student.setAddress(jtfAddress.getText());
-					student.setStatus(jCheckBoxStatus.isSelected());
-					studentService.Delete(student);
-					JlbMsg.setText("Data delete successful !");
-					StudentFrame frame = new StudentFrame(student);
-					frame.setVisible(false);
-				}
-			}
+	btnDelete.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (jtfStudentName.getText().length() == 0 || jDateBirthday.getDate() == null) {
+			JlbMsg.setText("column Name and Birthday not NULL !");
+			
+		}else {
+			student.setName(jtfStudentName.getText());
+			student.setBirthday(jDateBirthday.getDate());
+			student.setGender((String) jComboBoxGender.getSelectedItem());
+			student.setPhone(jtfPhone.getText());
+			student.setAddress(jtfAddress.getText());
+			student.setStatus(jCheckBoxStatus.isSelected());
+			studentService.Delete(student);
+			JlbMsg.setText("Data delete successful !");
+			StudentFrame frame = new StudentFrame(student);
+			frame.setVisible(false);
+		}
+	}
 
-		});
+	});
 	
 		
 		

@@ -13,6 +13,7 @@ import newpackage.dao.StudentDAOImport;
 import newpackage.model.Student;
 
 public class ClassTableModel extends StudentDAOImport{
+	// 
 	public DefaultTableModel setTableStudent(List<Student> listItem, String[] listColumn) {
         int columns = listColumn.length;
         DefaultTableModel dtm = new DefaultTableModel() {

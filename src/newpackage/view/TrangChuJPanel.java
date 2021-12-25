@@ -3,6 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package newpackage.view;
+import javax.swing.JLabel;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -27,19 +35,63 @@ public class TrangChuJPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel1.setForeground(Color.WHITE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel1.setBackground(Color.WHITE);
+        
+        JLabel lblNewLabel_2 = new JLabel("");
+        lblNewLabel_2.setIcon(new ImageIcon(TrangChuJPanel.class.getResource("/newpackage/images/dhh.jpg")));
+        
+        JLabel lblNewLabel = new JLabel("Trường Đại Học Khoa Học - Đại học Huế");
+        lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+        lblNewLabel.setForeground(Color.BLUE);
+        lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        
+        JLabel lblNewLabel_1 = new JLabel("Khoa Công Nghệ Thông Tin");
+        lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
+        lblNewLabel_1.setForeground(Color.BLUE);
+        lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 24));
+        
+        JLabel lblNewLabel_1_1 = new JLabel("Ngành Kỹ Thuật PHần Mềm");
+        lblNewLabel_1_1.setVerticalAlignment(SwingConstants.TOP);
+        lblNewLabel_1_1.setForeground(Color.BLUE);
+        lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD, 24));
+        
+        JLabel lblNewLabel_1_1_1 = new JLabel("Lớp Java Cơ Bản\r\n\r\n");
+        lblNewLabel_1_1_1.setVerticalAlignment(SwingConstants.TOP);
+        lblNewLabel_1_1_1.setForeground(Color.BLUE);
+        lblNewLabel_1_1_1.setFont(new Font("Arial", Font.BOLD, 24));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 802, Short.MAX_VALUE)
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 578, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 578, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 578, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 578, GroupLayout.PREFERRED_SIZE))
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 575, Short.MAX_VALUE)
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(lblNewLabel_2)
+        				.addGroup(jPanel1Layout.createSequentialGroup()
+        					.addGap(28)
+        					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)))
+        			.addContainerGap(78, Short.MAX_VALUE))
         );
+        jPanel1.setLayout(jPanel1Layout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -56,5 +108,4 @@ public class TrangChuJPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    // End of variables declaration//GEN-END:variables
 }

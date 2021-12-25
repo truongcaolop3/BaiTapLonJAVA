@@ -3,7 +3,6 @@ package newpackage.service;
 import java.util.List;
 
 import newpackage.bean.ClassBean;
-import newpackage.dao.StatisticDAO;
 import newpackage.dao.StatisticDAOImport;
 
 public class StatisticServiceImport implements StatisticService {

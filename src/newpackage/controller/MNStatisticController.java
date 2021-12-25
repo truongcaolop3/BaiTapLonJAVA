@@ -12,7 +12,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import newpackage.bean.ClassBean;
-import newpackage.dao.StudentDAOImport;
 import newpackage.service.StatisticService;
 import newpackage.service.StatisticServiceImport;
 
@@ -36,7 +35,7 @@ public class MNStatisticController {
 											"Thời Gian", "số Lượng", dataset);
 			
 			ChartPanel chartPanel = new ChartPanel(chart);
-			chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(), 300));
+			chartPanel.setPreferredSize(new Dimension(jpnItem.getWidth(), 500));
 			
 			jpnItem.removeAll();
 			jpnItem.setLayout(new CardLayout());

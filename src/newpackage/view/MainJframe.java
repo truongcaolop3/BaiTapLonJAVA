@@ -11,6 +11,7 @@ import newpackage.controller.Tap;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -32,7 +33,6 @@ public class MainJframe extends javax.swing.JFrame {
         List<DanhMucBean> listItem = new ArrayList<>();
         listItem.add( new DanhMucBean("TrangChu",jbnTrangChu ,jlbTrangChu ));
         listItem.add( new DanhMucBean("Student",jpnStudent ,jlbStudent ));
-        listItem.add( new DanhMucBean("Class",jpnClass ,jlbClass ));
         listItem.add( new DanhMucBean("Statistic",jpnStatistic ,jlbStatistic ));
         
         controler.setEvent(listItem);
@@ -55,8 +55,6 @@ public class MainJframe extends javax.swing.JFrame {
         jlbTrangChu = new javax.swing.JLabel();
         jpnStudent = new javax.swing.JPanel();
         jlbStudent = new javax.swing.JLabel();
-        jpnClass = new javax.swing.JPanel();
-        jlbClass = new javax.swing.JLabel();
         jpnStatistic = new javax.swing.JPanel();
         jlbStatistic = new javax.swing.JLabel();
         pnView = new javax.swing.JPanel();
@@ -93,7 +91,7 @@ public class MainJframe extends javax.swing.JFrame {
 
         jlbTrangChu.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jlbTrangChu.setForeground(new java.awt.Color(255, 255, 255));
-        jlbTrangChu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/images/icon3.png"))); // NOI18N
+        jlbTrangChu.setIcon(new ImageIcon(MainJframe.class.getResource("/newpackage/images/homeww.png"))); // NOI18N
         jlbTrangChu.setText("Trang Chủ");
 
         javax.swing.GroupLayout jbnTrangChuLayout = new javax.swing.GroupLayout(jbnTrangChu);
@@ -117,7 +115,7 @@ public class MainJframe extends javax.swing.JFrame {
 
         jlbStudent.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jlbStudent.setForeground(new java.awt.Color(255, 255, 255));
-        jlbStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/images/icon4.png"))); // NOI18N
+        jlbStudent.setIcon(new ImageIcon(MainJframe.class.getResource("/newpackage/images/person.png"))); // NOI18N
         jlbStudent.setText("Managerment Student");
 
         javax.swing.GroupLayout jpnStudentLayout = new javax.swing.GroupLayout(jpnStudent);
@@ -134,30 +132,6 @@ public class MainJframe extends javax.swing.JFrame {
             .addGroup(jpnStudentLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jlbStudent, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                .addGap(15, 15, 15))
-        );
-
-        jpnClass.setBackground(new java.awt.Color(51, 51, 204));
-
-        jlbClass.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jlbClass.setForeground(new java.awt.Color(255, 255, 255));
-        jlbClass.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/images/icon5.png"))); // NOI18N
-        jlbClass.setText("Managerment Class");
-
-        javax.swing.GroupLayout jpnClassLayout = new javax.swing.GroupLayout(jpnClass);
-        jpnClass.setLayout(jpnClassLayout);
-        jpnClassLayout.setHorizontalGroup(
-            jpnClassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnClassLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jlbClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(15, 15, 15))
-        );
-        jpnClassLayout.setVerticalGroup(
-            jpnClassLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnClassLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jlbClass, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                 .addGap(15, 15, 15))
         );
 
@@ -193,7 +167,6 @@ public class MainJframe extends javax.swing.JFrame {
         			.addGap(15)
         			.addGroup(pnMenuLayout.createParallelGroup(Alignment.TRAILING, false)
         				.addComponent(jpnStatistic, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        				.addComponent(jpnClass, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         				.addComponent(jbnTrangChu, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         				.addComponent(jpnStudent, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         			.addContainerGap(48, Short.MAX_VALUE))
@@ -206,11 +179,9 @@ public class MainJframe extends javax.swing.JFrame {
         			.addComponent(jbnTrangChu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         			.addGap(15)
         			.addComponent(jpnStudent, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        			.addGap(18)
-        			.addComponent(jpnClass, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
         			.addComponent(jpnStatistic, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(147, Short.MAX_VALUE))
+        			.addContainerGap(271, Short.MAX_VALUE))
         );
         pnMenu.setLayout(pnMenuLayout);
 
@@ -295,11 +266,9 @@ public class MainJframe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jbnTrangChu;
-    private javax.swing.JLabel jlbClass;
     private javax.swing.JLabel jlbStatistic;
     private javax.swing.JLabel jlbStudent;
     private javax.swing.JLabel jlbTrangChu;
-    private javax.swing.JPanel jpnClass;
     private javax.swing.JPanel jpnStatistic;
     private javax.swing.JPanel jpnStudent;
     private javax.swing.JPanel pnMenu;

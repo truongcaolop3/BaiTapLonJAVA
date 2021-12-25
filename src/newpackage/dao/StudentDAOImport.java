@@ -7,10 +7,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import newpackage.controller.MNStudentController;
 import newpackage.model.Student;
 import newpackage.view.StudentFrame;
-import newpackage.view.StudentJPanel;
 
 public class StudentDAOImport implements StudentDAO{
 	

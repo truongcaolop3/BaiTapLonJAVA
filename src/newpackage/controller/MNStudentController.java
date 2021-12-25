@@ -69,68 +69,67 @@ public class MNStudentController implements StudentDAO {
 		
 		jtfFind.getDocument().addDocumentListener(new DocumentListener() {
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				String text = jtfFind.getText();
-				if (text.trim().length() == 0) {
-					rowSorter.setRowFilter(null);
-				}else {
-					rowSorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + text));
-				}
-				
-			}
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		String text = jtfFind.getText();
+		if (text.trim().length() == 0) {
+			rowSorter.setRowFilter(null);
+		}else {
+			rowSorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + text));
+		}
+		
+	}
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				String text = jtfFind.getText();
-				if (text.trim().length() == 0) {
-					rowSorter.setRowFilter(null);
-				}else {
-					rowSorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + text));
-				}
-			}
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		String text = jtfFind.getText();
+		if (text.trim().length() == 0) {
+			rowSorter.setRowFilter(null);
+		}else {
+			rowSorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + text));
+		}
+	}
 
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 			
 		});
 		
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					int selectdRowIndex = table.getSelectedRow();
-					
-					//selectdRowIndex = table.convertColumnIndexToModel(selectdRowIndex);
+	table.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			int selectdRowIndex = table.getSelectedRow();
+			
+			//selectdRowIndex = table.convertColumnIndexToModel(selectdRowIndex);
 //					System.out.println(selectdRowIndex);
-					
-					Student student = new Student();
-					
-					student.setStudent_id(model.getValueAt(selectdRowIndex, 1).toString());
-					student.setName( model.getValueAt(selectdRowIndex, 2).toString());
-					student.setBirthday((Date)model.getValueAt(selectdRowIndex, 3));
-					student.setGender(model.getValueAt(selectdRowIndex, 4).toString());
-					student.setPhone(model.getValueAt(selectdRowIndex, 5) != null ?
-							model.getValueAt(selectdRowIndex, 5).toString() : null);
-					student.setAddress(model.getValueAt( selectdRowIndex, 6) != null ?
-							model.getValueAt(selectdRowIndex, 6).toString() : null);
-					student.setStatus((boolean)model.getValueAt(selectdRowIndex, 7));
-					
-					StudentFrame frame = new StudentFrame(student);
-					frame.setTitle("Information Student");
-					frame.setResizable(false);
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-				}
-				super.mouseClicked(e);
-			}
-		});
-		
-		
+			
+			Student student = new Student();
+			
+			student.setStudent_id(model.getValueAt(selectdRowIndex, 1).toString());
+			student.setName( model.getValueAt(selectdRowIndex, 2).toString());
+			student.setBirthday((Date)model.getValueAt(selectdRowIndex, 3));
+			student.setGender(model.getValueAt(selectdRowIndex, 4).toString());
+			student.setPhone(model.getValueAt(selectdRowIndex, 5) != null ?
+					model.getValueAt(selectdRowIndex, 5).toString() : null);
+			student.setAddress(model.getValueAt( selectdRowIndex, 6) != null ?
+					model.getValueAt(selectdRowIndex, 6).toString() : null);
+			student.setStatus((boolean)model.getValueAt(selectdRowIndex, 7));
+			
+			StudentFrame frame = new StudentFrame(student);
+			frame.setTitle("Information Student");
+			frame.setResizable(false);
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
+		}
+		super.mouseClicked(e);
+	}
+	});
+			
 		table.getTableHeader().setFont(new Font("Arrial", Font.BOLD, 14));
 		table.getTableHeader().setPreferredSize(new Dimension(100,50));
 		table.setRowHeight(50);

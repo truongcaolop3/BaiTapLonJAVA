@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import newpackage.controller.MNStatisticController;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
 
 public class StatisticJpanel extends JPanel {
 
@@ -27,8 +31,8 @@ public class StatisticJpanel extends JPanel {
     private void initComponents() {
 
         jpnRoot = new javax.swing.JPanel();
+        jpnRoot.setBackground(Color.WHITE);
         jpnView1 = new javax.swing.JPanel();
-        jpnView2 = new javax.swing.JPanel();
 
         javax.swing.GroupLayout gl_jpnView1 = new javax.swing.GroupLayout(jpnView1);
         jpnView1.setLayout(gl_jpnView1);
@@ -41,37 +45,22 @@ public class StatisticJpanel extends JPanel {
             .addGap(0, 201, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout gl_jpnView2 = new javax.swing.GroupLayout(jpnView2);
-        jpnView2.setLayout(gl_jpnView2);
-        gl_jpnView2.setHorizontalGroup(
-            gl_jpnView2.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        gl_jpnView2.setVerticalGroup(
-            gl_jpnView2.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout jpnRootLayout = new javax.swing.GroupLayout(jpnRoot);
-        jpnRoot.setLayout(jpnRootLayout);
         jpnRootLayout.setHorizontalGroup(
-            jpnRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnRootLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpnRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jpnView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jpnView2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        	jpnRootLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jpnRootLayout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(jpnView1, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+        			.addContainerGap())
         );
         jpnRootLayout.setVerticalGroup(
-            jpnRootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpnRootLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jpnView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jpnView2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        	jpnRootLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jpnRootLayout.createSequentialGroup()
+        			.addGap(203)
+        			.addComponent(jpnView1, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE)
+        			.addGap(256))
         );
+        jpnRoot.setLayout(jpnRootLayout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -88,7 +77,6 @@ public class StatisticJpanel extends JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jpnView1;
-    private javax.swing.JPanel jpnView2;
     private javax.swing.JPanel jpnRoot;
     // End of variables declaration//GEN-END:variables
 }

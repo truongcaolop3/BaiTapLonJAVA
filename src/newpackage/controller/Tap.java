@@ -29,6 +29,7 @@ public class Tap {
     private List<DanhMucBean> listItem = null;
     private TrangChuJPanel ttt;
     
+    
     public  Tap(JPanel jpnroot ){
         this.root = jpnroot;
     }
